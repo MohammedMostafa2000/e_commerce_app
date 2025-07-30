@@ -1,10 +1,17 @@
 import 'package:e_commerce_app/config/theme_manager.dart';
 import 'package:e_commerce_app/core/routes_manager.dart';
+import 'package:e_commerce_app/mainLayout/presentation/viewModels/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
-  runApp(ECommerceApp());
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (context) => HomeCubit()..getCategories()),
+    ],
+    child: ECommerceApp(),
+  ));
 }
 
 class ECommerceApp extends StatelessWidget {
@@ -17,8 +24,7 @@ class ECommerceApp extends StatelessWidget {
       ensureScreenSize: true,
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => 
-       MaterialApp(
+      builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: RoutesManager.mainLayout,
         onGenerateRoute: RoutesManager.goRoute,
@@ -26,12 +32,12 @@ class ECommerceApp extends StatelessWidget {
         theme: ThemeManager.light,
         darkTheme: ThemeManager.dark,
         themeMode: ThemeMode.light,
-      
       ),
     );
   }
 }
-extension ContextEx on BuildContext{
-double get width=> MediaQuery.of(this).size.width;
-double get height=> MediaQuery.of(this).size.height;
+
+extension ContextEx on BuildContext {
+  double get width => MediaQuery.of(this).size.width;
+  double get height => MediaQuery.of(this).size.height;
 }

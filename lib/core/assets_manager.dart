@@ -7,8 +7,13 @@ abstract class IconsManager {
   static const String activeWishlist = 'assets/icons/activeWishlist.png';
   static const String profile = 'assets/icons/profile.png';
   static const String activeProfile = 'assets/icons/activeProfile.png';
+  static const String cart = 'assets/icons/cartIcon.png';
+  static const String search = 'assets/icons/searchIcon.png';
 }
 
 abstract class ImagesManager {
   static const String routeLogo = 'assets/icons/routeIcon.png';
+  static const String adsSlider1 = 'assets/images/CarouselSlider1.png';
+  static const String adsSlider2 = 'assets/images/CarouselSlider2.png';
+  static const String adsSlider3 = 'assets/images/CarouselSlider3.png';
 }
