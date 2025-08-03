@@ -11,6 +11,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Image.asset(
           ImagesManager.routeLogo,
@@ -68,4 +69,3 @@ class CustomAppBar extends StatelessWidget {
     );
   }
 }
-

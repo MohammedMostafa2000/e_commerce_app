@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/config/theme_manager.dart';
 import 'package:e_commerce_app/core/routes_manager.dart';
-import 'package:e_commerce_app/mainLayout/presentation/viewModels/home_cubit.dart';
+import 'package:e_commerce_app/mainLayout/presentation/tabs/home/viewModels/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

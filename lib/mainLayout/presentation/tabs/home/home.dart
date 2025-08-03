@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_app/core/assets_manager.dart';
+import 'package:e_commerce_app/core/colors_manager.dart';
 import 'package:e_commerce_app/core/widgets/custom_app_bar.dart';
 import 'package:e_commerce_app/mainLayout/data/models/category_d_m.dart';
-import 'package:e_commerce_app/mainLayout/presentation/viewModels/home_cubit.dart';
-import 'package:e_commerce_app/mainLayout/presentation/viewModels/home_cubit_state.dart';
+import 'package:e_commerce_app/mainLayout/presentation/tabs/home/viewModels/home_cubit.dart';
+import 'package:e_commerce_app/mainLayout/presentation/tabs/home/viewModels/home_cubit_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +20,9 @@ class Home extends StatelessWidget {
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state is HomeLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return  Center(child: CircularProgressIndicator(
+                color: ColorsManager.lightBlue,
+              ));
             } else if (state is HomeSuccess) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
