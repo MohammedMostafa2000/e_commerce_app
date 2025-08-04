@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/config/theme_manager.dart';
 import 'package:e_commerce_app/core/routes_manager.dart';
+import 'package:e_commerce_app/mainLayout/presentation/tabs/categories/viewModels/categories_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/tabs/home/viewModels/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ void main() {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => HomeCubit()..getCategories()),
+      BlocProvider(create: (context) => CategoriesCubit()),
     ],
     child: ECommerceApp(),
   ));
