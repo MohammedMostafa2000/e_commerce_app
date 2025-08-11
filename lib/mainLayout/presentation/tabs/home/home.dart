@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_app/core/assets_manager.dart';
 import 'package:e_commerce_app/core/colors_manager.dart';
+import 'package:e_commerce_app/core/routes_manager.dart';
 import 'package:e_commerce_app/core/widgets/custom_app_bar.dart';
 import 'package:e_commerce_app/mainLayout/data/models/category_d_m.dart';
 import 'package:e_commerce_app/mainLayout/presentation/tabs/home/viewModels/home_cubit.dart';
@@ -20,7 +21,8 @@ class Home extends StatelessWidget {
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state is HomeLoading) {
-              return  Center(child: CircularProgressIndicator(
+              return Center(
+                  child: CircularProgressIndicator(
                 color: ColorsManager.lightBlue,
               ));
             } else if (state is HomeSuccess) {
@@ -46,7 +48,17 @@ class Home extends StatelessWidget {
                         mainAxisExtent: 170.h,
                       ),
                       itemBuilder: (context, index) {
-                        return buildCategoryAvatar(context, state.categories[index]);
+                        return buildCategoryItem(
+                          context: context,
+                          category: state.categories[index],
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              RoutesManager.products,
+                              arguments: state.categories[index].id as String,
+                            );
+                          },
+                        );
                       },
                     ),
                   )
@@ -63,29 +75,34 @@ class Home extends StatelessWidget {
   }
 }
 
-Widget buildCategoryAvatar(BuildContext context, CategoryDM category) {
-  return Column(
-    children: [
-      ClipOval(
-        child: CachedNetworkImage(
-          imageUrl: category.image ?? '',
-          fit: BoxFit.cover,
+Widget buildCategoryItem(
+    {required BuildContext context, required CategoryDM category, void Function()? onTap}) {
+  return InkWell(
+    onTap: onTap,
+    child: Column(
+      children: [
+        ClipOval(
+          child: CachedNetworkImage(
+            
+            imageUrl: category.image ?? '',
+            fit: BoxFit.cover,
+            width: 100.w,
+            height: 100.w,
+            errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+          ),
+        ),
+        SizedBox(height: 8.h),
+        SizedBox(
           width: 100.w,
-          height: 100.w,
-          errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
-        ),
-      ),
-      SizedBox(height: 8.h),
-      SizedBox(
-        width: 100.w,
-        child: Text(
-          category.name!,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelSmall,
-          maxLines: 2,
-        ),
-      )
-    ],
+          child: Text(
+            category.name!,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.labelSmall,
+            maxLines: 2,
+          ),
+        )
+      ],
+    ),
   );
 }
 
