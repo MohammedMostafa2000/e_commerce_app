@@ -1,7 +1,3 @@
-import 'package:e_commerce_app/auth/data/data_source_implementation/sign_up_api_implementation.dart';
-import 'package:e_commerce_app/auth/data/remote/api_services.dart';
-import 'package:e_commerce_app/auth/data/repository_implementation/sign_up_repository_implementation.dart';
-import 'package:e_commerce_app/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:e_commerce_app/auth/presentation/viewModels/sign_up_cubit.dart';
 import 'package:e_commerce_app/auth/presentation/viewModels/sign_up_state.dart';
 import 'package:e_commerce_app/auth/presentation/widgets/custom_elevated_button.dart';
