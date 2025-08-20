@@ -16,4 +16,5 @@ abstract class ImagesManager {
   static const String adsSlider1 = 'assets/images/CarouselSlider1.png';
   static const String adsSlider2 = 'assets/images/CarouselSlider2.png';
   static const String adsSlider3 = 'assets/images/CarouselSlider3.png';
+  static const String routeBrandLogo = 'assets/images/routeBrandLogo.png';
 }
