@@ -36,6 +36,12 @@ abstract class ThemeManager {
         fontWeight: FontWeight.w500,
         color: ColorsManager.darkBlue,
       ),
+      headlineMedium: GoogleFonts.poppins(
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w500,
+        color: ColorsManager.white,
+      ),
+      // displayMedium: 
     ),
     scaffoldBackgroundColor: ColorsManager.white,
     splashFactory: NoSplash.splashFactory,

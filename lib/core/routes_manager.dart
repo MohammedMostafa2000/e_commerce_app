@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/auth/presentation/views/sign_in.dart';
+import 'package:e_commerce_app/auth/presentation/views/sign_up.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/main_layout_view.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/product_details.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/products.dart';
@@ -7,6 +9,8 @@ abstract class RoutesManager {
   static const String mainLayout = '/mainLayout';
   static const String products = '/products';
   static const String productDetails = '/productDetails';
+  static const String signUp = '/signUp';
+  static const String signIn = '/signIn';
 
   static Route<dynamic>? goRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -24,6 +28,12 @@ abstract class RoutesManager {
           builder: (context) => ProductDetails(productId: settings.arguments as String),
           settings: settings,
         );
+
+      case signUp:
+        return MaterialPageRoute(builder: (context) => SignUp());
+
+      case signIn:
+        return MaterialPageRoute(builder: (context) => SignIn());
       default:
         return null;
     }
