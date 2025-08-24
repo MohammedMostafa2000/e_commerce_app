@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:e_commerce_app/mainLayout/data/models/cart_response.dart';
 import 'package:e_commerce_app/mainLayout/data/models/category_response.dart';
 import 'package:e_commerce_app/mainLayout/data/models/product_details_response.dart';
 import 'package:e_commerce_app/mainLayout/data/models/products_response.dart';
@@ -58,6 +59,107 @@ class ApiServices {
         return ProductDetailsResponse(
           error: 'error',
           message: 'Network error or unknown issue.',
+        );
+      }
+    }
+  }
+
+  static Future<CartResponse> getCartDetails({required String token}) async {
+    try {
+      final response = await dio.get(
+        'https://ecommerce.routemisr.com/api/v1/cart',
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+      return CartResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        return CartResponse.fromJson(e.response?.data);
+      } else {
+        return CartResponse(
+          message: 'message error',
+          statusMsg: 'statusMsg error',
+        );
+      }
+    }
+  }
+
+  static Future<CartResponse> addProductToCart(
+      {required String token, required String productId}) async {
+    try {
+      final response = await dio.post(
+        'https://ecommerce.routemisr.com/api/v1/cart',
+        data: {
+          "productId": productId,
+        },
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+      return CartResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        return CartResponse.fromJson(e.response?.data);
+      } else {
+        return CartResponse(
+          message: 'message error',
+          statusMsg: 'statusMsg error',
+        );
+      }
+    }
+  }
+
+  static Future<CartResponse> updateProductCountInCart(
+      {required String token, required String productId, required int count}) async {
+    try {
+      final response = await dio.put(
+        'https://ecommerce.routemisr.com/api/v1/cart/$productId',
+        data: {
+          "count": count,
+        },
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+      return CartResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        return CartResponse.fromJson(e.response?.data);
+      } else {
+        return CartResponse(
+          message: 'message error',
+          statusMsg: 'statusMsg error',
+        );
+      }
+    }
+  }
+
+  static Future<CartResponse> deleteProductOfCart(
+      {required String token, required String productId}) async {
+    try {
+      final response = await dio.delete(
+        'https://ecommerce.routemisr.com/api/v1/cart/$productId',
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+      return CartResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        return CartResponse.fromJson(e.response?.data);
+      } else {
+        return CartResponse(
+          message: 'message error',
+          statusMsg: 'statusMsg error',
         );
       }
     }

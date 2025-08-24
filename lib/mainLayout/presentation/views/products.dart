@@ -1,9 +1,11 @@
 import 'dart:developer';
-
 import 'package:e_commerce_app/core/colors_manager.dart';
 import 'package:e_commerce_app/core/routes_manager.dart';
+import 'package:e_commerce_app/core/token_cubit/token_cubit.dart';
+import 'package:e_commerce_app/core/token_cubit/token_state.dart';
 import 'package:e_commerce_app/core/widgets/custom_app_bar.dart';
 import 'package:e_commerce_app/mainLayout/data/models/product_d_m.dart';
+import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/cartViewModel/cart_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/productsViewModel/products_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/productsViewModel/products_states.dart';
 import 'package:flutter/material.dart';
@@ -18,81 +20,95 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
+  late CartCubit cartCubit;
   @override
   void initState() {
     context.read<ProductsCubit>().getCategoryProducts(categoryId: widget.categoryId);
+    cartCubit = CartCubit();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 16),
-          child: BlocBuilder<ProductsCubit, ProductsState>(
-            builder: (context, state) {
-              if (state is ProductsLoadingState) {
-                return Center(
-                    child: CircularProgressIndicator(
-                  color: ColorsManager.lightBlue,
-                ));
-              } else if (state is ProductsSuccessStates) {
-                if (state.productsList.isEmpty) {
-                  return Center(
-                    child: Text('No Products Available'),
-                  );
-                }
-                return Column(
-                  children: [
-                    CustomAppBar(),
-                    Expanded(
-                      child: GridView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: false,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 16.h,
-                            crossAxisSpacing: 16.w,
-                            mainAxisExtent: 240),
-                        itemCount: state.productsList.length,
-                        itemBuilder: (context, index) {
-                          return CustomProductCard(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                RoutesManager.productDetails,
-                                arguments: state.productsList[index].id as String,
-                              );
-                              log(state.productsList[index].id.toString());
-                            },
-                            productDM: state.productsList[index],
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                );
-              } else if (state is ProductsErrorStates) {
-                return Center(child: Text(state.errorMessage));
-              }
-              return SizedBox();
-            },
-          ),
-        ),
-      ),
+    return BlocBuilder<TokenCubit, TokenState>(
+      builder: (context, state) {
+        if (state is TokenSuccessState) {
+          final token = state.token;
+          return Scaffold(
+            body: SafeArea(
+              child: Padding(
+                padding: REdgeInsets.symmetric(horizontal: 16),
+                child: BlocBuilder<ProductsCubit, ProductsState>(
+                  builder: (context, state) {
+                    if (state is ProductsLoadingState) {
+                      return Center(
+                          child: CircularProgressIndicator(
+                        color: ColorsManager.lightBlue,
+                      ));
+                    } else if (state is ProductsSuccessStates) {
+                      if (state.productsList.isEmpty) {
+                        return Center(
+                          child: Text('No Products Available'),
+                        );
+                      }
+                      return Column(
+                        children: [
+                          CustomAppBar(),
+                          Expanded(
+                            child: GridView.builder(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: false,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 16.h,
+                                  crossAxisSpacing: 16.w,
+                                  mainAxisExtent: 240),
+                              itemCount: state.productsList.length,
+                              itemBuilder: (context, index) {
+                                return CustomProductCard(
+                                  onAddPressed: () {
+                                    cartCubit.addProductToCart(
+                                        token: token, productId: state.productsList[index].id!);
+                                    // context.read<CartCubit>().addProductToCart(
+                                    //     token: token, productId: state.productsList[index].id!);
+                                  },
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      RoutesManager.productDetails,
+                                      arguments: state.productsList[index].id as String,
+                                    );
+                                    log(state.productsList[index].id.toString());
+                                  },
+                                  productDM: state.productsList[index],
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      );
+                    } else if (state is ProductsErrorStates) {
+                      return Center(child: Text(state.errorMessage));
+                    }
+                    return SizedBox();
+                  },
+                ),
+              ),
+            ),
+          );
+        } else {
+          return SizedBox();
+        }
+      },
     );
   }
 }
 
 class CustomProductCard extends StatelessWidget {
-  const CustomProductCard({
-    super.key,
-    required this.productDM,
-    this.onTap,
-  });
+  const CustomProductCard({super.key, required this.productDM, this.onTap, this.onAddPressed});
   final ProductDM productDM;
   final void Function()? onTap;
+  final void Function()? onAddPressed;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -199,7 +215,7 @@ class CustomProductCard extends StatelessWidget {
                     size: 30.sp,
                   )),
               IconButton(
-                  onPressed: () {},
+                  onPressed: onAddPressed,
                   icon: Icon(
                     Icons.add_circle,
                     color: ColorsManager.lightBlue,

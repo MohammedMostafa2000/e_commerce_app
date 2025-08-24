@@ -1,18 +1,24 @@
+import 'package:e_commerce_app/auth/data/local/shared_prefs_handler.dart';
 import 'package:e_commerce_app/config/theme_manager.dart';
 import 'package:e_commerce_app/core/di/di.dart';
 import 'package:e_commerce_app/core/routes_manager.dart';
+import 'package:e_commerce_app/core/token_cubit/token_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/tabs/categories/viewModels/categories_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/tabs/home/viewModels/home_cubit.dart';
+import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/cartViewModel/cart_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/productsViewModel/products_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
+
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => TokenCubit()..getToken()),
         BlocProvider(create: (context) => HomeCubit()..getCategories()),
         BlocProvider(create: (context) => CategoriesCubit()),
         BlocProvider(create: (context) => ProductsCubit()),
@@ -34,7 +40,7 @@ class ECommerceApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: RoutesManager.signIn,
+        initialRoute: RoutesManager.mainLayout,
         onGenerateRoute: RoutesManager.goRoute,
         locale: Locale('en'),
         theme: ThemeManager.light,

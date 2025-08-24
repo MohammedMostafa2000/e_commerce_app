@@ -1,13 +1,14 @@
 import 'package:e_commerce_app/core/assets_manager.dart';
 import 'package:e_commerce_app/core/colors_manager.dart';
 import 'package:e_commerce_app/core/widgets/custom_action_widget.dart';
+import 'package:e_commerce_app/core/widgets/custom_counter_widget.dart';
+import 'package:e_commerce_app/core/widgets/custom_total_price_widget.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/product_details_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/productsViewModel/product_details_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({
@@ -132,49 +133,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                         Spacer(),
-                        Container(
-                          height: 42.h,
-                          width: 122.w,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.r),
-                              color: ColorsManager.lightBlue),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  if (productCount <= 0) {
-                                    return;
-                                  }
-                                  setState(() {
-                                    productCount--;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.remove_circle_outline,
-                                  color: ColorsManager.white,
-                                ),
-                              ),
-                              Text(
-                                '$productCount',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(color: ColorsManager.white),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    productCount++;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.add_circle_outline_sharp,
-                                  color: ColorsManager.white,
-                                ),
-                              )
-                            ],
-                          ),
+                        CustomCounterWidget(
+                          title: '$productCount',
+                          addFunction: () {
+                            setState(() {
+                              productCount++;
+                            });
+                          },
+                          removeFunction: () {
+                            if (productCount <= 0) {
+                              return;
+                            }
+                            setState(() {
+                              productCount--;
+                            });
+                          },
                         )
                       ],
                     ),
@@ -193,48 +166,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 100.h),
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Total price',
-                              style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                                    color: ColorsManager.darkBlue.withValues(alpha: 0.60),
-                                  ),
-                            ),
-                            SizedBox(height: 12.h),
-                            Text('EGP $totalPrice', style: Theme.of(context).textTheme.labelMedium),
-                          ],
-                        ),
-                        Spacer(),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: Size(240.w, 48.h),
-                            foregroundColor: ColorsManager.white,
-                            backgroundColor: ColorsManager.lightBlue,
-                            iconSize: 24.sp,
-                            iconColor: ColorsManager.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            textStyle: GoogleFonts.poppins(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w500,
-                              color: ColorsManager.white,
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Icon(Icons.add_shopping_cart_rounded),
-                              Text('Add to cart'),
-                            ],
-                          ),
-                        )
-                      ],
+                    CustomTotalPriceWidget(
+                      totalPrice: totalPrice,
+                      buttonTitle: 'Add to cart',
+                      onPressed: () {},
+                      icon: Icons.add_shopping_cart_rounded,
                     )
                   ],
                 ),
