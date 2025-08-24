@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/assets_manager.dart';
 import 'package:e_commerce_app/core/colors_manager.dart';
+import 'package:e_commerce_app/core/routes_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -55,7 +56,9 @@ class CustomAppBar extends StatelessWidget {
             ),
             SizedBox(width: 24.w),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, RoutesManager.cartView);
+              },
               child: Image.asset(
                 IconsManager.cart,
                 height: 24.h,

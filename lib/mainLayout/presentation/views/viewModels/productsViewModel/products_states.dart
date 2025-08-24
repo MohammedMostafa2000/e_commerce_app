@@ -19,3 +19,4 @@ class ProductsErrorStates extends ProductsState {
     required this.errorMessage,
   });
 }
+

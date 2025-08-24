@@ -12,7 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -83,7 +85,6 @@ Widget buildCategoryItem(
       children: [
         ClipOval(
           child: CachedNetworkImage(
-            
             imageUrl: category.image ?? '',
             fit: BoxFit.cover,
             width: 100.w,

@@ -9,6 +9,7 @@ abstract class IconsManager {
   static const String activeProfile = 'assets/icons/activeProfile.png';
   static const String cart = 'assets/icons/cartIcon.png';
   static const String search = 'assets/icons/searchIcon.png';
+  static const String delete = 'assets/icons/delete.png';
 }
 
 abstract class ImagesManager {

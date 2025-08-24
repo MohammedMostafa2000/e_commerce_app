@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/auth/data/local/shared_prefs_handler.dart';
 import 'package:e_commerce_app/core/assets_manager.dart';
 import 'package:e_commerce_app/core/colors_manager.dart';
 import 'package:e_commerce_app/mainLayout/presentation/tabs/categories/categories.dart';
@@ -14,13 +15,17 @@ class MainLayoutView extends StatefulWidget {
 
 class _MainLayoutViewState extends State<MainLayoutView> {
   int currentIndex = 0;
-
   final List<Widget> tabs = [
     Home(),
     Categories(),
     Center(child: Text('Wishlist')),
     Center(child: Text('Profile')),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
