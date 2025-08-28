@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/assets_manager.dart';
 import 'package:e_commerce_app/core/colors_manager.dart';
 import 'package:e_commerce_app/core/token_cubit/token_cubit.dart';
 import 'package:e_commerce_app/core/token_cubit/token_state.dart';
 import 'package:e_commerce_app/core/widgets/custom_action_widget.dart';
-import 'package:e_commerce_app/core/widgets/custom_counter_widget.dart';
+import 'package:e_commerce_app/core/widgets/custom_product_widget.dart';
 import 'package:e_commerce_app/core/widgets/custom_total_price_widget.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/cartViewModel/cart_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/cartViewModel/cart_state.dart';
@@ -98,102 +97,36 @@ class _CartViewState extends State<CartView> {
                     physics: BouncingScrollPhysics(),
                     itemCount: state.cartResponse.products!.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        width: double.infinity,
-                        height: 112.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          border: Border.all(color: ColorsManager.lightBlue),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 112.h,
-                              width: 120.w,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: CachedNetworkImageProvider(
-                                    state.cartResponse.products![index].productDM!.imageCover!,
-                                  ),
-                                ),
-                                border: Border.all(color: ColorsManager.lightBlue),
-                                borderRadius: BorderRadius.circular(16.r),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: REdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ConstrainedBox(
-                                          constraints: BoxConstraints(maxWidth: 200.w),
-                                          child: Text(
-                                            state.cartResponse.products![index].productDM!.title!,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: Theme.of(context).textTheme.labelMedium,
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            cartCubit.deleteProductOfCart(
-                                              token: token,
-                                              productId: state
-                                                  .cartResponse.products![index].productDM!.id!,
-                                            );
-                                          },
-                                          child: Image.asset(
-                                            IconsManager.delete,
-                                            height: 26.h,
-                                            width: 26.w,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'EGP ${state.cartResponse.products?[index].price ?? 0}',
-                                          style: Theme.of(context).textTheme.labelMedium,
-                                        ),
-                                        CustomCounterWidget(
-                                          title: '${state.cartResponse.products![index].count}',
-                                          addFunction: () {
-                                            cartCubit.updateProductCountInCart(
-                                              token: token,
-                                              productId: state
-                                                  .cartResponse.products![index].productDM!.id!,
-                                              count:
-                                                  (state.cartResponse.products![index].count!) + 1,
-                                            );
-                                          },
-                                          removeFunction: () {
-                                            if (state.cartResponse.products![index].count! > 0) {
-                                              cartCubit.updateProductCountInCart(
-                                                token: token,
-                                                productId: state
-                                                    .cartResponse.products![index].productDM!.id!,
-                                                count:
-                                                    state.cartResponse.products![index].count! - 1,
-                                              );
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                      return CustomProductWidget(
+                        onTap: () {},
+                        isWishlistTab: false,
+                        title: '${state.cartResponse.products![index].count}',
+                        productCount: '${state.cartResponse.products![index].count}',
+                        productImage: state.cartResponse.products![index].productDM!.imageCover!,
+                        productPrice: 'EGP ${state.cartResponse.products?[index].price ?? 0}',
+                        productTitle: state.cartResponse.products![index].productDM!.title!,
+                        deleteButton: () {
+                          cartCubit.deleteProductOfCart(
+                            token: token,
+                            productId: state.cartResponse.products![index].productDM!.id!,
+                          );
+                        },
+                        incrementProductCountButton: () {
+                          cartCubit.updateProductCountInCart(
+                            token: token,
+                            productId: state.cartResponse.products![index].productDM!.id!,
+                            count: (state.cartResponse.products![index].count!) + 1,
+                          );
+                        },
+                        decrementProductCountButton: () {
+                          if (state.cartResponse.products![index].count! > 0) {
+                            cartCubit.updateProductCountInCart(
+                              token: token,
+                              productId: state.cartResponse.products![index].productDM!.id!,
+                              count: state.cartResponse.products![index].count! - 1,
+                            );
+                          }
+                        },
                       );
                     },
                   ),

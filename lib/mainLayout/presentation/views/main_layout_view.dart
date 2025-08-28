@@ -1,8 +1,8 @@
-import 'package:e_commerce_app/auth/data/local/shared_prefs_handler.dart';
 import 'package:e_commerce_app/core/assets_manager.dart';
 import 'package:e_commerce_app/core/colors_manager.dart';
 import 'package:e_commerce_app/mainLayout/presentation/tabs/categories/categories.dart';
 import 'package:e_commerce_app/mainLayout/presentation/tabs/home/home.dart';
+import 'package:e_commerce_app/mainLayout/presentation/tabs/wishlist/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,7 +18,7 @@ class _MainLayoutViewState extends State<MainLayoutView> {
   final List<Widget> tabs = [
     Home(),
     Categories(),
-    Center(child: Text('Wishlist')),
+    Wishlist(),
     Center(child: Text('Profile')),
   ];
 
