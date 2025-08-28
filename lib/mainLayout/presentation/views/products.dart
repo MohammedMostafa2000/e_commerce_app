@@ -8,6 +8,7 @@ import 'package:e_commerce_app/mainLayout/data/models/product_d_m.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/cartViewModel/cart_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/productsViewModel/products_cubit.dart';
 import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/productsViewModel/products_states.dart';
+import 'package:e_commerce_app/mainLayout/presentation/views/viewModels/wishlistViewModel/wishlist_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,10 +22,12 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   late CartCubit cartCubit;
+  late WishlistCubit wishlistCubit;
   @override
   void initState() {
     context.read<ProductsCubit>().getCategoryProducts(categoryId: widget.categoryId);
     cartCubit = CartCubit();
+    wishlistCubit = WishlistCubit();
     super.initState();
   }
 
@@ -66,6 +69,10 @@ class _ProductsState extends State<Products> {
                               itemCount: state.productsList.length,
                               itemBuilder: (context, index) {
                                 return CustomProductCard(
+                                  onFavoriteTapped: () {
+                                    wishlistCubit.addProductToWishlist(
+                                        token: token, productId: state.productsList[index].id!);
+                                  },
                                   onAddPressed: () {
                                     cartCubit.addProductToCart(
                                         token: token, productId: state.productsList[index].id!);
@@ -105,10 +112,12 @@ class _ProductsState extends State<Products> {
 }
 
 class CustomProductCard extends StatelessWidget {
-  const CustomProductCard({super.key, required this.productDM, this.onTap, this.onAddPressed});
+  const CustomProductCard(
+      {super.key, required this.productDM, this.onTap, this.onAddPressed, this.onFavoriteTapped});
   final ProductDM productDM;
   final void Function()? onTap;
   final void Function()? onAddPressed;
+  final void Function()? onFavoriteTapped;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -208,7 +217,7 @@ class CustomProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: onFavoriteTapped,
                   icon: Icon(
                     Icons.favorite_border_rounded,
                     color: ColorsManager.lightBlue,

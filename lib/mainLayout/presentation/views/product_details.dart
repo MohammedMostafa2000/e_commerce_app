@@ -134,6 +134,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                         Spacer(),
                         CustomCounterWidget(
+                          isWishlistTab: false,
                           title: '$productCount',
                           addFunction: () {
                             setState(() {

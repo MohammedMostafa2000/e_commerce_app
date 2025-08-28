@@ -4,6 +4,7 @@ import 'package:e_commerce_app/mainLayout/data/models/cart_response.dart';
 import 'package:e_commerce_app/mainLayout/data/models/category_response.dart';
 import 'package:e_commerce_app/mainLayout/data/models/product_details_response.dart';
 import 'package:e_commerce_app/mainLayout/data/models/products_response.dart';
+import 'package:e_commerce_app/mainLayout/data/models/wishlist_response.dart';
 
 final dio = Dio();
 
@@ -158,6 +159,80 @@ class ApiServices {
         return CartResponse.fromJson(e.response?.data);
       } else {
         return CartResponse(
+          message: 'message error',
+          statusMsg: 'statusMsg error',
+        );
+      }
+    }
+  }
+
+  static Future<WishlistResponse> addProductToWishlist(
+      {required String token, required String productId}) async {
+    try {
+      final response = await dio.post(
+        'https://ecommerce.routemisr.com/api/v1/wishlist',
+        data: {
+          "productId": productId,
+        },
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+      return WishlistResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        return WishlistResponse.fromJson(e.response?.data);
+      } else {
+        return WishlistResponse(
+          message: 'message error',
+          statusMsg: 'statusMsg error',
+        );
+      }
+    }
+  }
+
+  static Future<WishlistResponse> removeProductFromWishlist(
+      {required String token, required String productId}) async {
+    try {
+      final response = await dio.delete(
+        'https://ecommerce.routemisr.com/api/v1/wishlist/$productId',
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+      return WishlistResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        return WishlistResponse.fromJson(e.response?.data);
+      } else {
+        return WishlistResponse(
+          message: 'message error',
+          statusMsg: 'statusMsg error',
+        );
+      }
+    }
+  }
+
+  static Future<WishlistResponse> getProductsFromWishlist({required String token}) async {
+    try {
+      final response = await dio.get(
+        'https://ecommerce.routemisr.com/api/v1/wishlist',
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+      return WishlistResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        return WishlistResponse.fromJson(e.response?.data);
+      } else {
+        return WishlistResponse(
           message: 'message error',
           statusMsg: 'statusMsg error',
         );
