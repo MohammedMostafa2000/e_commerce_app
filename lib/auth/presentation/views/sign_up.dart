@@ -81,7 +81,7 @@ class _SignUpState extends State<SignUp> {
                       onPressed: () {
                         Navigator.pop(context);
                         if (state.authResponse.message == 'success') {
-                          Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+                          Navigator.pushReplacementNamed(context, RoutesManager.signIn);
                         }
                       },
                     );

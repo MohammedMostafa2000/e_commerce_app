@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/assets_manager.dart';
 import 'package:e_commerce_app/core/colors_manager.dart';
+import 'package:e_commerce_app/core/dialog_utils.dart';
 import 'package:e_commerce_app/core/token_cubit/token_cubit.dart';
 import 'package:e_commerce_app/core/token_cubit/token_state.dart';
 import 'package:e_commerce_app/core/widgets/custom_action_widget.dart';
@@ -135,7 +136,9 @@ class _CartViewState extends State<CartView> {
           CustomTotalPriceWidget(
             totalPrice: state.cartResponse.totalCartPrice ?? 0,
             buttonTitle: 'Check Out',
-            onPressed: () {},
+            onPressed: () {
+              DialogUtils.showLoadingDialog(context: context);
+            },
             icon: Icons.arrow_forward_rounded,
           ),
         ],

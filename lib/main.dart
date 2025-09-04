@@ -38,7 +38,7 @@ class ECommerceApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: RoutesManager.mainLayout,
+        initialRoute: RoutesManager.signIn,
         onGenerateRoute: RoutesManager.goRoute,
         locale: Locale('en'),
         theme: ThemeManager.light,

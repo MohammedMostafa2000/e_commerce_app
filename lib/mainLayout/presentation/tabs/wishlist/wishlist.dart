@@ -34,6 +34,7 @@ class _WishlistState extends State<Wishlist> {
       builder: (context, tokenState) {
         if (tokenState is TokenSuccessState) {
           token = tokenState.token;
+          log(token);
           return BlocProvider.value(
             value: wishlistCubit..getProductsFromWishlist(token: token),
             child: SafeArea(
